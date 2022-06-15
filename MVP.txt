@@ -1,0 +1,14 @@
+Pitch: Create a website that uses the NHL API to display NHL rosters and allows users to create and share their own teams.
+
+MVPS:
+
+Allows users to login
+Shows users each NHL team
+Can display rosters of specific NHL teams
+Users can create their own teams and add current NHL players to said team
+Users can share their own teams with other users 
+
+Future features:
+
+Users can create their own players
+Users can rate and comment on other user's teams
