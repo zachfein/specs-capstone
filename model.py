@@ -1,10 +1,11 @@
 from enum import unique
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import UserMixin
 from os import environ
 
 db = SQLAlchemy()
 
-class User(db.Model):
+class User(UserMixin, db.Model):
     __tablename__ = "users"
 
     user_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
@@ -58,3 +59,8 @@ def connect_to_db(app):
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.app = app
     db.init_app(app)
+
+if __name__ == '__main__':
+    from flask import Flask
+    app = Flask(__name__)
+    connect_to_db(app)

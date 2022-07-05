@@ -1,1 +1,9 @@
 {% extends 'home.html' %}
+
+{% block content %}
+
+{% for team in teams %}
+    <a href="/nhl-team-roster/{{ team['id'] }}">{{ team['teamName'] }}</a>
+{% endfor %}
+
+{% endblock %}

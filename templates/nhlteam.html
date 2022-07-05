@@ -1,0 +1,12 @@
+{% extends 'home.html' %}
+
+{% block content %}
+
+{% for player in roster %}
+    <p>{{ player['person']['fullName'] }}</p>
+    <p>{{ player['jerseyNumber'] }}</p>
+    <p>{{ player['position']['name'] }}</p>
+    <button action = "addplayer?playerid={{playerid}}">Add Player</button>
+{% endfor %}
+
+{% endblock %}

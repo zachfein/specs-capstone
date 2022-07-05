@@ -4,10 +4,21 @@
     <title>Homepage</title>
 </head>
 <body>
-    <a href="./home" class="nav-links">Home</a>
-    <a href="./roster" class="nav-links">Rosters</a>
+    <div class="nav-bar">
+    <a href="/" class="nav-links">Home</a>
     <a href="./teams" class="nav-links">Teams</a>
+    <a href="./roster" class="nav-links">Rosters</a>
     <a href="./register" class="nav-links">Register</a>
     <a href="./login" class="nav-links">Login</a>
+    </div>
+
+    <div class="title">
+        <h2>NHL Forum</h2>
+    </div>
+
+    <div>
+        {% block content %}
+        {% endblock %}
+    </div>
 </body>
 </html>
