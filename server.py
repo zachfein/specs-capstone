@@ -1,9 +1,9 @@
-import email
+from xml.dom import ValidationErr
 from flask import (Flask, render_template, request, redirect, flash, session, url_for)
 from flask_login import current_user, LoginManager, login_user, login_required, logout_user
 from flask_sqlalchemy import SQLAlchemy
 from jinja2 import StrictUndefined, Template
-from views import get_teams, display_roster
+from views import get_teams, display_roster, get_player
 from pprint import pprint
 from model import *
 from wtform_fields import *
@@ -19,6 +19,9 @@ app.jinja_env.undefined = StrictUndefined
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
+@login_manager.user_loader
+def load_user(user_id):
+    return User.get(user_id)
 
 @app.route('/')
 def home():
@@ -32,13 +35,21 @@ def rosters():
 def nhl_roster(id):
     return render_template("nhlteam.html", roster=display_roster(id))
 
-@app.route('/roster')
-def teams():
-    return render_template("roster.html")
+@app.route('/roster/<team_id>')
+def teams(team_id):
+    team_name = Team.query.get(team_id).team_name
+
+    players_list = Rostered_Players.query.filter_by(team_id=team_id).all()
+
+    for player in players_list:
+        player_name = get_player(player.player_id)
+
+        player.name = player_name
+
+    return render_template("roster.html", players_list=players_list, team_name=team_name)
 
 @app.route('/register', methods = ["GET", "POST"])
 def register():
-
     reg_form = RegistrationForm()
     if reg_form.validate_on_submit():
         first_name = reg_form.first_name.data
@@ -53,36 +64,43 @@ def register():
         user = User(first_name=first_name, last_name=last_name, email=email, password=password)
         db.session.add(user)
         db.session.commit()
-        return render_template('login.html')
+        return redirect(url_for('login'))
 
     return render_template('register.html', form=reg_form)
 
-
-@login_manager.user_loader
-def load_user(user_id):
-    return User.query.get(int(user_id))
-
-@app.route('/login')
+@app.route('/login', methods=['GET', 'POST'])
 def login():
-    return render_template('login.html')
+    login_form = LoginForm()
 
-@app.route('/logmein', methods = ['GET', 'POST'])
-def logmein():
-    email = request.form['email']
-    password = request.form['password']
-    user = User.query.filter_by(email=email).first()
+    if login_form.validate_on_submit():
+        return render_template('home.html')
 
-    if not user:
-        return('User not found')
-
-    login_user(user)
-
-    return 'You are now logged in'
+    return render_template('login.html', form=login_form)
 
 @app.route('/logout')
 def logout():
     logout_user()
-    return render_template("login.html")
+    return redirect(url_for('login'))
+
+@app.route('/addplayer')
+def addPlayer():
+    player_id = request.args.get('playerid')
+
+    rostered_player = Rostered_Players(team_id=1, player_id=player_id)
+    db.session.add(rostered_player)
+    db.session.commit()
+    
+    return render_template('teams.html', teams=get_teams())
+
+def invalid_credentials(form, field):
+    email = form.email.data
+    password = field.data
+
+    user_object = User.query.filter_by(email=email).first()
+    if user_object is None:
+        raise ValidationErr('Email or password is incorrect')
+    elif password != user_object.password:
+        raise ValidationErr('Email or password is incorrect')
 
 if __name__ == '__main__':
 

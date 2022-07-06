@@ -6,7 +6,8 @@
     <p>{{ player['person']['fullName'] }}</p>
     <p>{{ player['jerseyNumber'] }}</p>
     <p>{{ player['position']['name'] }}</p>
-    <button action = "addplayer?playerid={{playerid}}">Add Player</button>
+    
+    <a href="/addplayer?playerid={{player['person']['id']}}"><button>Add Player</button></a>
 {% endfor %}
 
 {% endblock %}

@@ -8,7 +8,7 @@ db = SQLAlchemy()
 class User(UserMixin, db.Model):
     __tablename__ = "users"
 
-    user_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     email = db.Column(db.String(255), unique=True, nullable=False)
     first_name = db.Column(db.String(255), unique=True, nullable=False)
     last_name = db.Column(db.String(255), unique=True, nullable=False)
@@ -21,7 +21,7 @@ class User(UserMixin, db.Model):
         self.password = password
     
     def __repr__(self):
-        return f"""<User user_id={self.user_id}
+        return f"""<User id={self.id}
                    email={self.email} 
                    first_name={self.first_name} 
                    last_name={self.last_name}
@@ -32,7 +32,7 @@ class Team(db.Model):
 
     team_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     team_name = db.Column(db.String(255), unique=True, nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"))
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     public = db.Column(db.Boolean)
 
     def __init__(self, team_name, user_id, public):
@@ -56,7 +56,7 @@ class Rostered_Players(db.Model):
 
 def connect_to_db(app):
     app.config['SQLALCHEMY_DATABASE_URI'] = environ['POSTGRES_URI']
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
     db.app = app
     db.init_app(app)
 
