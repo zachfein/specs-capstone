@@ -2,8 +2,10 @@
 
 {% block content %}
 
-{% for team in teams %}
-    <a href="/nhl-team-roster/{{ team['id'] }}">{{ team['teamName'] }}</a>
-{% endfor %}
 
+<div class="team-display">
+{% for team in teams %}
+    <a class="nhl-team" href="/nhl-team-roster/{{ team['id'] }}">{{ team['teamName'] }}</a>
+{% endfor %}
+</div>
 {% endblock %}

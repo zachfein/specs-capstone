@@ -2,12 +2,16 @@
 
 {% block content %}
 
-{% for player in roster %}
-    <p>{{ player['person']['fullName'] }}</p>
-    <p>{{ player['jerseyNumber'] }}</p>
-    <p>{{ player['position']['name'] }}</p>
-    
-    <a href="/addplayer?playerid={{player['person']['id']}}"><button>Add Player</button></a>
-{% endfor %}
+<div class="team-div">
+    {% for player in roster %}
+    <div class="player-display">
+        <p>{{ player['person']['fullName'] }}</p>
+        <p>{{ player['jerseyNumber'] }}</p>
+        <p>{{ player['position']['name'] }}</p>
+        
+        <a href="/addplayer?playerid={{player['person']['id']}}"><button class="add-player-btn">Add Player</button></a>
+    </div>
+    {% endfor %}
+</div>
 
 {% endblock %}

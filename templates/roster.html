@@ -1,10 +1,12 @@
 {% extends 'home.html' %}
 
 {% block content %}
+<div class="user-team">
 <h3>{{ team_name }}</h3>
 {% for player in players_list %}
     <p class="player-name">
         {{ player.name }}
     </p>
 {% endfor %}
+</div>
 {% endblock %}

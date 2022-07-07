@@ -2,7 +2,7 @@
 
 {% block content %}
     <form action="{{ url_for('register')}}", method="POST">
-        <div>
+        <div class="reg-input">
             {{ form.first_name(class_='form-control', placeholder='First Name') }}
 
             <ul>
@@ -11,7 +11,7 @@
                 {% endfor %}
             </ul>
         </div>
-        <div>
+        <div class="reg-input">
             {{ form.last_name(class_='form-control', placeholder='Last Name') }}
 
             <ul>
@@ -20,7 +20,7 @@
                 {% endfor %}
             </ul>
         </div>
-        <div>
+        <div class="reg-input">
             {{ form.email(class_='form-control', placeholder='Email') }}
 
             <ul>
@@ -29,7 +29,7 @@
                 {% endfor %}
             </ul>
         </div>
-        <div>
+        <div class="reg-input">
             {{ form.password(class_='form-control', placeholder='Password') }}
 
             <ul>
